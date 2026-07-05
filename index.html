@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Search App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ── HEADER: nav + search with background image ── -->
+  <header id="hero">
+
+    <!-- NAVIGATION BAR -->
+    <nav>
+      <h1>Find your film</h1>
+      <a href="watchlist.html">My Watchlist</a>
+    </nav>
+
+    <!-- SEARCH SECTION -->
+    <section id="search-section">
+      <input type="text" id="search-input" placeholder="Search for a movie..." />
+      <button id="search-btn">Search</button>
+    </section>
+
+  </header>
+
+  <!-- ── RESULTS SECTION ───────────────────────── -->
+  <!-- This area will be filled dynamically by index.js -->
+  <section id="results-section">
+
+    <!-- Empty state: shown before any search -->
+    <div id="empty-state">
+      <p>Start exploring</p>
+    </div>
+
+    <!-- Movies list: shown after a successful search -->
+    <div id="movies-container">
+      <!-- Movie cards will be injected here by JavaScript -->
+    </div>
+
+    <!-- Error state: shown when no results found -->
+    <div id="error-state">
+      <p>Unable to find what you're looking for. Please try another search.</p>
+    </div>
+
+  </section>
+
+  <script src="index.js"></script>
+</body>
+
+</html>

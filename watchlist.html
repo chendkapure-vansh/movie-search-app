@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Watchlist</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ── HEADER: nav with background image ─── -->
+  <header id="hero">
+
+    <!-- NAVIGATION BAR -->
+    <nav>
+      <h1>My Watchlist</h1>
+      <a href="index.html">Search for movies</a>
+    </nav>
+
+  </header>
+
+  <!-- ── MAIN CONTENT ──────────────────────── -->
+  <main id="watchlist-section">
+
+    <!-- Empty state: shown when watchlist is empty -->
+    <div id="empty-state">
+      <p>Your watchlist is looking a bit empty...</p>
+      <a href="index.html" id="add-movies-btn">+ Let's add some movies!</a>
+    </div>
+
+    <!-- Watchlist items: filled by watchlist.js -->
+    <div id="watchlist-container">
+      <!-- Movie cards injected here by JavaScript -->
+    </div>
+
+  </main>
+
+  <script src="data.js"></script>
+  <script src="watchlist.js"></script>
+</body>
+
+</html>
