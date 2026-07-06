@@ -1,9 +1,10 @@
 // =======================================================
 // index.js — Movie Search Logic & OMDB API Integration
 // =======================================================
+import { getWatchlist, addToWatchlist } from './data.js';
 
 // 1. Helper function to read the key from the .env file in the browser
-async function getApiKey() {
+export async function getApiKey() {
     try {
         const response = await fetch('.env');
         const text = await response.text();
@@ -24,7 +25,7 @@ const emptyState = document.getElementById("empty-state");
 const errorState = document.getElementById("error-state");
 
 let apiKey = null;
-let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+let watchlist = getWatchlist();
 
 // 2. UI State Helpers
 function showLoading() {
@@ -49,12 +50,12 @@ function showError() {
 
 // 3. Render Movies
 function renderMovies(movies) {
-    // Refresh watchlist from local storage
-    watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+    // Refresh watchlist from data layer
+    watchlist = getWatchlist();
 
     moviesContainer.innerHTML = movies.map(movie => {
         const posterUrl = movie.Poster !== "N/A" ? movie.Poster : "";
-        const posterHTML = posterUrl 
+        const posterHTML = posterUrl
             ? `<img src="${posterUrl}" alt="${movie.Title} Poster" class="movie-poster">`
             : `<div class="movie-poster-fallback"><span>No Image Available</span></div>`;
 
@@ -83,7 +84,7 @@ function renderMovies(movies) {
             </div>
         `;
     }).join("");
-    
+
     showResults();
 }
 
@@ -101,7 +102,7 @@ async function handleSearch() {
 
         if (data.Response === "True") {
             // Fetch detail for each movie in the search results
-            const detailPromises = data.Search.map(movie => 
+            const detailPromises = data.Search.map(movie =>
                 fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${movie.imdbID}`).then(res => res.json())
             );
             const detailedMovies = await Promise.all(detailPromises);
@@ -124,11 +125,10 @@ function handleWatchlistClick(e) {
     const imdbID = card.dataset.imdbid;
 
     if (imdbID) {
-        watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-        if (!watchlist.includes(imdbID)) {
-            watchlist.push(imdbID);
-            localStorage.setItem("watchlist", JSON.stringify(watchlist));
-            
+        addToWatchlist(imdbID);
+        watchlist = getWatchlist();
+        if (watchlist.includes(imdbID)) {
+
             // Instantly update button state in DOM
             btn.classList.add("in-watchlist");
             btn.setAttribute("disabled", "true");
@@ -137,22 +137,35 @@ function handleWatchlistClick(e) {
     }
 }
 
-// 6. Initialize App
-async function init() {
-    apiKey = await getApiKey();
-    if (!apiKey) {
-        console.error("OMDB_API_KEY is not defined in your .env file!");
+// 6. Load Watchlist (called on watchlist.html)
+async function loadWatchlist() {
+    const ids = getWatchlist();
+
+    if (ids.length === 0) {
+        showError();
         return;
     }
 
-    searchBtn.addEventListener("click", handleSearch);
-    searchInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            handleSearch();
-        }
-    });
+    showLoading();
 
-    moviesContainer.addEventListener("click", handleWatchlistClick);
+    const movies = await Promise.all(
+        ids.map(id => fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${id}`).then(r => r.json()))
+    );
+
+    renderMovies(movies);
 }
 
-init();
+// 7. Initialize App (top-level await — works because script is type="module")
+apiKey = await getApiKey();
+
+if (document.getElementById("search-input")) {
+    // Search page (index.html)
+    searchBtn.addEventListener("click", handleSearch);
+    searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") handleSearch();
+    });
+    moviesContainer.addEventListener("click", handleWatchlistClick);
+} else {
+    // Watchlist page (watchlist.html)
+    await loadWatchlist();
+}

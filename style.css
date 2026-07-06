@@ -201,6 +201,7 @@ nav a:hover {
       opacity: 0;
       transform: translateY(10px);
    }
+
    to {
       opacity: 1;
       transform: translateY(0);
@@ -262,7 +263,8 @@ nav a:hover {
 .movie-rating {
    font-size: 0.9rem;
    font-weight: 600;
-   color: #ffd700; /* Gold */
+   color: #ffd700;
+   /* Gold */
    display: inline-flex;
    align-items: center;
    gap: 4px;
@@ -342,8 +344,13 @@ nav a:hover {
 }
 
 @keyframes spin {
-   0% { transform: rotate(0deg); }
-   100% { transform: rotate(360deg); }
+   0% {
+      transform: rotate(0deg);
+   }
+
+   100% {
+      transform: rotate(360deg);
+   }
 }
 
 /* Responsive details */
@@ -354,9 +361,11 @@ nav a:hover {
       text-align: center;
       padding: 20px 0;
    }
+
    .movie-title-rating-row {
       justify-content: center;
    }
+
    .movie-meta-row {
       justify-content: center;
    }
