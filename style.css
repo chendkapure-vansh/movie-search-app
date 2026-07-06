@@ -102,33 +102,53 @@ nav a:hover {
    border-color: #6c63ff;
 }
 
-#search-btn {
-   padding: 12px 24px;
-   font-size: 1rem;
-   font-weight: 600;
+/* ── 5. PRIMARY BUTTON ───────────────────── */
+/* Shared by #search-btn (index.html) and #add-movies-btn (watchlist.html).
+   Each ID only keeps the properties unique to that element. */
+.btn-primary {
    background-color: #6c63ff;
    color: #ffffff;
-   border: none;
    border-radius: 8px;
-   cursor: pointer;
+   font-weight: 600;
    transition: background-color 0.2s ease;
 }
 
-#search-btn:hover {
+.btn-primary:hover {
    background-color: #5a52d5;
 }
 
-/* ── 4. RESULTS SECTION ────────────────────── */
-#results-section {
+#search-btn {
+   padding: 12px 24px;
+   font-size: 1rem;
+   border: none;
+   cursor: pointer;
+}
+
+#add-movies-btn {
+   display: inline-block;
+   margin-top: 16px;
+   padding: 10px 22px;
+   font-size: 0.95rem;
+   text-decoration: none;
+}
+
+/* ── 6. CONTENT SECTION LAYOUT ───────────── */
+/* Shared layout used by #results-section on both pages.
+   Previously duplicated as #results-section and #watchlist-section. */
+.content-section {
    max-width: 900px;
    margin: 0 auto;
    padding: 30px 20px;
 }
 
-/* ── 5. EMPTY STATE ────────────────────────── */
-#empty-state {
+/* ── 7. STATE PANELS ─────────────────────── */
+/* Shared by #empty-state and #error-state on both pages. */
+.state-panel {
    text-align: center;
    padding: 80px 20px;
+}
+
+#empty-state {
    color: #555570;
 }
 
@@ -136,11 +156,8 @@ nav a:hover {
    font-size: 1.1rem;
 }
 
-/* ── 6. ERROR STATE ────────────────────────── */
 #error-state {
    display: none;
-   text-align: center;
-   padding: 80px 20px;
    color: #888;
 }
 
@@ -148,37 +165,12 @@ nav a:hover {
    font-size: 1rem;
 }
 
-/* ── 7. UTILITY ────────────────────────────── */
+/* ── 8. UTILITY ────────────────────────────── */
 .hidden {
    display: none;
 }
 
-/* ── 8. WATCHLIST PAGE ─────────────────────── */
-#watchlist-section {
-   max-width: 900px;
-   margin: 0 auto;
-   padding: 30px 20px;
-}
-
-/* Empty state link button */
-#add-movies-btn {
-   display: inline-block;
-   margin-top: 16px;
-   padding: 10px 22px;
-   background-color: #6c63ff;
-   color: #ffffff;
-   text-decoration: none;
-   border-radius: 8px;
-   font-size: 0.95rem;
-   font-weight: 600;
-   transition: background-color 0.2s ease;
-}
-
-#add-movies-btn:hover {
-   background-color: #5a52d5;
-}
-
-/* Watchlist container: JS injects cards here */
+/* ── 9. MOVIE CONTAINERS ─────────────────── */
 #watchlist-container,
 #movies-container {
    display: flex;
@@ -186,7 +178,7 @@ nav a:hover {
    gap: 20px;
 }
 
-/* ── 9. MOVIE CARD & GRID ──────────────────── */
+/* ── 10. MOVIE CARD ──────────────────────── */
 .movie-card {
    display: flex;
    gap: 20px;
@@ -208,13 +200,18 @@ nav a:hover {
    }
 }
 
-.movie-poster {
+/* Shared size and shape between the real poster and its "no image" fallback */
+.movie-poster,
+.movie-poster-fallback {
    width: 140px;
    height: 200px;
-   object-fit: cover;
    border-radius: 6px;
-   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
    flex-shrink: 0;
+}
+
+.movie-poster {
+   object-fit: cover;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
    transition: transform 0.2s ease;
 }
 
@@ -223,11 +220,8 @@ nav a:hover {
 }
 
 .movie-poster-fallback {
-   width: 140px;
-   height: 200px;
    background-color: #1a1a2e;
    border: 1px dashed #3a3a5a;
-   border-radius: 6px;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -236,7 +230,6 @@ nav a:hover {
    font-size: 0.85rem;
    padding: 10px;
    text-align: center;
-   flex-shrink: 0;
 }
 
 .movie-info {
@@ -260,13 +253,17 @@ nav a:hover {
    margin: 0;
 }
 
+/* Shared inline-flex layout for the rating badge and the watchlist button */
+.movie-rating,
+.movie-watchlist-btn {
+   display: inline-flex;
+   align-items: center;
+}
+
 .movie-rating {
    font-size: 0.9rem;
    font-weight: 600;
    color: #ffd700;
-   /* Gold */
-   display: inline-flex;
-   align-items: center;
    gap: 4px;
 }
 
@@ -296,8 +293,6 @@ nav a:hover {
    color: #ffffff;
    font-size: 0.85rem;
    font-weight: 600;
-   display: inline-flex;
-   align-items: center;
    gap: 6px;
    cursor: pointer;
    padding: 4px 8px;
@@ -332,7 +327,7 @@ nav a:hover {
    margin: 0;
 }
 
-/* Loading Spinner */
+/* ── 11. LOADING SPINNER ─────────────────── */
 .loading-spinner {
    border: 4px solid rgba(255, 255, 255, 0.1);
    width: 40px;
@@ -344,16 +339,11 @@ nav a:hover {
 }
 
 @keyframes spin {
-   0% {
-      transform: rotate(0deg);
-   }
-
-   100% {
-      transform: rotate(360deg);
-   }
+   0% { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
 }
 
-/* Responsive details */
+/* ── 12. RESPONSIVE ──────────────────────── */
 @media (max-width: 600px) {
    .movie-card {
       flex-direction: column;
@@ -362,10 +352,8 @@ nav a:hover {
       padding: 20px 0;
    }
 
-   .movie-title-rating-row {
-      justify-content: center;
-   }
-
+   /* Both row elements centre-align on small screens */
+   .movie-title-rating-row,
    .movie-meta-row {
       justify-content: center;
    }

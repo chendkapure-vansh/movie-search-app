@@ -19,17 +19,17 @@
   </header>
 
   <!-- ── RESULTS SECTION (same IDs as index.html so renderMovies works) ── -->
-  <section id="results-section">
+  <section id="results-section" class="content-section">
 
     <!-- Empty state (hidden by JS, not used on watchlist page) -->
-    <div id="empty-state"></div>
+    <div id="empty-state" class="state-panel"></div>
 
     <!-- Movies list: filled by renderMovies() from index.js -->
     <div id="movies-container"></div>
 
     <!-- Shown when watchlist is empty -->
-    <div id="error-state">
-      <p>Your watchlist is empty. <a href="index.html" id="add-movies-btn">+ Find Movies</a></p>
+    <div id="error-state" class="state-panel">
+      <p>Your watchlist is empty. <a href="index.html" id="add-movies-btn" class="btn-primary">+ Find Movies</a></p>
     </div>
 
   </section>
